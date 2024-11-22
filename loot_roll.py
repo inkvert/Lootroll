@@ -71,11 +71,13 @@ def main():
     maximum_damage = random.randint(250, 300)
 #Calculates the damage per second of a weapon by finding the average of its damage range and diving it by its attack speed (weapons only)
     total_dps = round(((minimum_damage+maximum_damage)/2)/attack_speed, 2)
+#Randomly rolls an item name, formatted as an f-string
+    item_name = (f'{random_prefix} {random_sword1h} of the {random_suffix}')
 
 #Prints the generated weapon in the console
     print("Congratulations! You receive:")
     print(end='\n')
-    print(random_prefix, random_sword1h, "of the", random_suffix)
+    print(item_name)
     print("Item level:", item_lvl)
     print(end='\n')
     print("Damage:", minimum_damage, "-", maximum_damage)
