@@ -81,6 +81,21 @@ def main():
     print("Damage:", minimum_damage, "-", maximum_damage)
     print("Attack speed:", attack_speed)
     print("DPS:", total_dps)
+    print(end='\n')
+
+#Prints a rating for the weapon based on DPS value
+    if total_dps <= 100:
+        print("Weapons this terrible really shouldn't exist...")
+    if 100 <= total_dps <= 110:
+        print("This weapon is not very good...")
+    if 110 <= total_dps <= 130:
+        print("A fairly average weapon.")
+    if 130 <= total_dps <= 140:
+        print("Quite a strong weapon.")
+    if 140 <= total_dps <= 150:
+        print("Exceptional quality.")
+    if total_dps >= 150:
+        print("Wow! An incredible weapon.")
 
 if __name__ == "__main__":
     main()
