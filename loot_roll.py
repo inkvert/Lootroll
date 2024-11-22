@@ -87,17 +87,17 @@ def main():
 
 #Prints a rating for the weapon based on DPS value
     if total_dps <= 100:
-        print("Weapons this terrible really shouldn't exist...")
+        print("F tier: Weapons this terrible really shouldn't exist...")
     if 100 <= total_dps <= 110:
-        print("This weapon is not very good...")
+        print("D tier: This weapon is not very good...")
     if 110 <= total_dps <= 130:
-        print("A fairly average weapon.")
+        print("C tier: A fairly average weapon.")
     if 130 <= total_dps <= 140:
-        print("Quite a strong weapon.")
+        print("B tier: Quite a strong weapon.")
     if 140 <= total_dps <= 150:
-        print("Exceptional quality.")
+        print("A tier: Exceptional quality.")
     if total_dps >= 150:
-        print("Wow! An incredible weapon.")
+        print("S tier: Wow! An incredible weapon.")
 
 if __name__ == "__main__":
     main()
