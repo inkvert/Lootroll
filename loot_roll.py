@@ -60,7 +60,7 @@ DRAGON_AGE = [
 "Ancient",
 ]
 
-#Words which are placed after the age in the dragon monster namer, e.g Elder VOLCANO Dragon (currently 10 prefixes)
+#Words which are placed after the age in the dragon monster namer, e.g Elder VOLCANO Dragon (currently 8 prefixes)
 DRAGON_PREFIXES = [
 "Volcano",
 "Thunder",
