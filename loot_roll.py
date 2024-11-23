@@ -100,7 +100,7 @@ def main():
     if 150 <= total_dps <= 156:
         print("S tier: Wow! An incredible weapon, and a rare find.")
     if total_dps >= 160:
-        print("S+ tier: Legendary weapon! It doesn't get any better than this")
+        print("S+ tier: Legendary weapon! It doesn't get any better than this.")
 
 if __name__ == "__main__":
     main()
