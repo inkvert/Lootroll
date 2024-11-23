@@ -143,7 +143,7 @@ def main():
 
     # Prints a random amount of gold earned in the console
     print(end='\n')
-    print("...you also receive", gold_dropped, "gold pieces.")
+    print("...you also receive", format(gold_dropped, ","), "gold pieces.")
     print(end='\n')
 
 if __name__ == "__main__":
