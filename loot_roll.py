@@ -9,7 +9,7 @@ Current notes:
 """
 import random
 
-#Words which are placed at random at the start of item names, e.g BARBED Blade of the Tiger (currently 10 prefixes)
+# Words which are placed at random at the start of item names, e.g BARBED Blade of the Tiger (currently 10 prefixes)
 SWORD_PREFIXES_1H = [
 "Barbed",
 "Vorpal",
@@ -23,7 +23,7 @@ SWORD_PREFIXES_1H = [
 "Broken"
 ]
 
-#Words which are placed at random at the start of one-handed sword item names, e.g Barbed BLADE of the Tiger (currently 10 swords)
+# Words which are placed at random at the start of one-handed sword item names, e.g Barbed BLADE of the Tiger (currently 10 swords)
 SWORD_NAMES_1H = [
 "Blade",
 "Edge",
@@ -37,7 +37,7 @@ SWORD_NAMES_1H = [
 "Dao"
 ]
 
-#Words which are placed at random at the end of item names, e.g Barbed Blade of the TIGER (currently 10 suffixes)
+# Words which are placed at random at the end of item names, e.g Barbed Blade of the TIGER (currently 10 suffixes)
 SWORD_SUFFIXES_1H = [
 "Tiger",
 "Wolf",
@@ -51,7 +51,7 @@ SWORD_SUFFIXES_1H = [
 "Viper"
 ]
 
-#Words which are placed at the start of dragon monster name, e.g ELDER Volcano Dragon (currently 5 ages)
+# Words which are placed at the start of dragon monster name, e.g ELDER Volcano Dragon (currently 5 ages)
 DRAGON_AGE = [
 "Hatchling",
 "Juvenile",
@@ -60,7 +60,7 @@ DRAGON_AGE = [
 "Ancient",
 ]
 
-#Words which are placed after the age in the dragon monster namer, e.g Elder VOLCANO Dragon (currently 8 prefixes)
+# Words which are placed after the age in the dragon monster namer, e.g Elder VOLCANO Dragon (currently 10 prefixes)
 DRAGON_PREFIXES = [
 "Volcano",
 "Thunder",
@@ -72,52 +72,51 @@ DRAGON_PREFIXES = [
 "Eldritch",
 ]
 
-
 def main():
 
+    # Input prompt which commences and/or restarts the code
     while input("Challenge a monster? (y/n)") == "y":
 
-    #Pulls a random prefix from PREFIXES
-        random_prefix = random.choice(SWORD_PREFIXES_1H)
-    #Pulls a random one-handed sword name from SWORD_NAMES_1H
-        random_sword1h = random.choice(SWORD_NAMES_1H)
-    #Pulls a random suffix from SUFFIXES
-        random_suffix = random.choice(SWORD_SUFFIXES_1H)
-
-    #Pulls a random dragon age from DRAGON_AGE
+        # The below relates to the generation of a monster (for now, a dragon)
+        # Pulls a random dragon age from DRAGON_AGE
         random_dragon_age = random.choice(DRAGON_AGE)
-    #Pulls a random dragon prefix from DRAGON_PREFIXES
+        # Pulls a random dragon prefix from DRAGON_PREFIXES
         random_dragon_prefix = random.choice(DRAGON_PREFIXES)
-
-    #Calculates the the level of the monster
+        # Calculates the the level of the monster
         monster_level = random.randint(80, 110)
-
-    #Generates an item level (currently does nothing)
-        item_level = random.randint(80, 110)
-    #Generates an attack speed (weapons only)
-        attack_speed = round(random.uniform (1.50, 1.99), 2)
-    #Generates a minumum value for a damage range (weapons only)
-        minimum_damage = random.randint(150, 200)
-    #Generates a maximum value for a damage range (weapons only)
-        maximum_damage = random.randint(250, 300)
-    #Calculates the damage per second of a weapon by finding the average of its damage range and diving it by its attack speed (weapons only)
-        raw_dps = ((minimum_damage+maximum_damage)/2)/attack_speed
-    #Calculates DPS adjusted by a percentage informed by item_level
-        total_dps = round(((raw_dps/100)*item_level),2)
-
-    #Randomly rolls an item name, formatted as an f-string
-        item_name = (f'{random_prefix} {random_sword1h} of the {random_suffix}')
-    #Randomly rolls a dragon name, formatted as an f-string
+        # Randomly rolls a dragon name, formatted as an f-string
         dragon_name = (f'{random_dragon_age} {random_dragon_prefix} Dragon')
-    #Calculates a random amount of gold dropped by the enemy, scaled by monster_level
+
+        # The below relates to the generation of treasure (an item and gold)
+        # Pulls a random prefix from PREFIXES
+        random_prefix = random.choice(SWORD_PREFIXES_1H)
+        # Pulls a random one-handed sword name from SWORD_NAMES_1H
+        random_sword_1h = random.choice(SWORD_NAMES_1H)
+        # Pulls a random suffix from SUFFIXES
+        random_suffix = random.choice(SWORD_SUFFIXES_1H)
+        # Generates an item level)
+        item_level = random.randint(80, 110)
+        # Generates an attack speed
+        attack_speed = round(random.uniform (1.50, 1.99), 2)
+        # Generates a minumum value for a damage range
+        minimum_damage = random.randint(150, 200)
+        # Generates a maximum value for a damage range
+        maximum_damage = random.randint(250, 300)
+        # Calculates the damage per second of a weapon (average damage/attack speed)
+        raw_dps = ((minimum_damage+maximum_damage)/2)/attack_speed
+        # Calculates DPS adjusted by a percentage informed by item_level
+        total_dps = round(((raw_dps/100)*item_level),2)
+        # Randomly rolls an item name, formatted as an f-string
+        item_name = (f'{random_prefix} {random_sword_1h} of the {random_suffix}')
+        # Calculates a random amount of gold dropped by the enemy, scaled by monster_level
         gold_dropped = (random.randint(50, 500)*item_level)
 
-    #Prints the name and level of the monster in the console
+        # Prints the name and level of the monster in the console
         print(end='\n')
         print("You have defeated the Level", monster_level, dragon_name)
         print(end='\n')
 
-    #Prints the generated weapon in the console
+        # Prints the generated weapon in the console
         print("Congratulations! You receive:")
         print(end='\n')
         print(item_name)
@@ -127,7 +126,7 @@ def main():
         print("DPS:", total_dps)
         print(end='\n')
 
-    #Prints a rating for the weapon based on DPS value
+        # Prints a rating for the weapon based on DPS value
         if total_dps <= 100:
             print("F tier: Weapons this terrible really have no use.")
         if 100 <= total_dps <= 110:
