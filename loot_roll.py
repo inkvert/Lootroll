@@ -5,8 +5,7 @@ A simple game which generates randomised "loot", as if from an action roleplayin
 Current notes:
 1) Only generates one-handed swords
 2) The item names do not currently influence the attributes of the item
-3) Item level currently has no effect on the attributes of the item
-4) Items currently do not have special effects or abilities
+3) Items currently do not have special effects or abilities
 """
 import random
 
@@ -62,7 +61,7 @@ def main():
     random_suffix = random.choice(SUFFIXES)
 
 #Generates an item level (currently does nothing)
-    item_lvl = random.randint(80, 99)
+    item_level = random.randint(80, 110)
 #Generates an attack speed (weapons only)
     attack_speed = round(random.uniform (1.50, 1.99), 2)
 #Generates a minumum value for a damage range (weapons only)
@@ -70,7 +69,9 @@ def main():
 #Generates a maximum value for a damage range (weapons only)
     maximum_damage = random.randint(250, 300)
 #Calculates the damage per second of a weapon by finding the average of its damage range and diving it by its attack speed (weapons only)
-    total_dps = round(((minimum_damage+maximum_damage)/2)/attack_speed, 2)
+    raw_dps = ((minimum_damage+maximum_damage)/2)/attack_speed
+#Calculates DPS adjusted by a percentage informed by item_level
+    total_dps = round(((raw_dps/100)*item_level),2)
 #Randomly rolls an item name, formatted as an f-string
     item_name = (f'{random_prefix} {random_sword1h} of the {random_suffix}')
 
@@ -78,7 +79,7 @@ def main():
     print("Congratulations! You receive:")
     print(end='\n')
     print(item_name)
-    print("Item level:", item_lvl)
+    print("Item level:", item_level)
     print(end='\n')
     print("Damage:", minimum_damage, "-", maximum_damage)
     print("Attack speed:", attack_speed)
@@ -87,17 +88,19 @@ def main():
 
 #Prints a rating for the weapon based on DPS value
     if total_dps <= 100:
-        print("F tier: Weapons this terrible really shouldn't exist...")
+        print("F tier: Weapons this terrible really have no use.")
     if 100 <= total_dps <= 110:
         print("D tier: This weapon is not very good...")
     if 110 <= total_dps <= 130:
         print("C tier: A fairly average weapon.")
     if 130 <= total_dps <= 140:
-        print("B tier: Quite a strong weapon.")
+        print("B tier: Quite a strong, reliable weapon.")
     if 140 <= total_dps <= 150:
-        print("A tier: Exceptional quality.")
-    if total_dps >= 150:
-        print("S tier: Wow! An incredible weapon.")
+        print("A tier: Exceptional quality and craftmanship.")
+    if 150 <= total_dps <= 156:
+        print("S tier: Wow! An incredible weapon, and a rare find.")
+    if total_dps >= 160:
+        print("S+ tier: Legendary weapon! It doesn't get any better than this")
 
 if __name__ == "__main__":
     main()
