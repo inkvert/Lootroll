@@ -1,317 +1,151 @@
 """
-Dieablo - a dice rolling action role playing game
-Obtain lucky loot so that you can get luckier and obtain luckier loot.
-Thinking outside the Skinner's Box.
-Notes:
-1) Succeeded at generating items based on a die roll and pulling the right data pairs from each dictionary.
-2) To do: add functionality to "save"/"equip" items under equipped_items
-3) To do: once items are saved/equipped, add this value to rolls as a sort of "player power level"
-4) To do: add "weighting" to item rolls (may involve considerable rewrite to item rolling code)
-5) To do: make player power level affect item roll weighting
-"""
+Lootroll 1.0
 
+A simple game which generates randomised "loot", as if from an action roleplaying game such as Diablo.
+Current notes:
+1) Only generates one-handed swords
+2) The item names do not currently influence the attributes of the item
+3) Items currently do not have special effects or abilities
+"""
 import random
 
-# Program version and tagline
-VERSION = "Pre-alpha 0.2"
-TAGLINE = "Stay a while, and roll..."
+# Words which are placed at random at the start of item names, e.g BARBED Blade of the Tiger (currently 10 prefixes)
+SWORD_PREFIXES_1H = [
+"Barbed",
+"Vorpal",
+"Keen",
+"Serrated",
+"Sharp",
+"Dull",
+"Tarnished",
+"Glowing",
+"Rusted",
+"Broken"
+]
+
+# Words which are placed at random at the start of one-handed sword item names, e.g Barbed BLADE of the Tiger (currently 10 swords)
+SWORD_NAMES_1H = [
+"Blade",
+"Edge",
+"Scimitar",
+"Cutlass",
+"Katana",
+"Sabre",
+"Rapier",
+"Gladius",
+"Falchion",
+"Dao"
+]
+
+# Words which are placed at random at the end of item names, e.g Barbed Blade of the TIGER (currently 10 suffixes)
+SWORD_SUFFIXES_1H = [
+"Tiger",
+"Wolf",
+"Eagle",
+"Mongoose",
+"Lion",
+"Dragon",
+"Hound",
+"Mouse",
+"Cockroach",
+"Viper"
+]
+
+# Words which are placed at the start of dragon monster name, e.g ELDER Volcano Dragon (currently 5 ages)
+DRAGON_AGE = [
+"Hatchling",
+"Juvenile",
+"Mature",
+"Elder",
+"Ancient",
+]
+
+# Words which are placed after the age in the dragon monster namer, e.g Elder VOLCANO Dragon (currently 10 prefixes)
+DRAGON_PREFIXES = [
+"Volcano",
+"Thunder",
+"Frozen",
+"Tempest",
+"Mountain",
+"Arcane",
+"Shadow",
+"Eldritch",
+]
 
 def main():
 
- # Dictionary which lists item types and assigns them a number
-    item_types = {
-    "Weapon": 1,
-    "Armour": 2,
-    "Jewellery": 3
-    }
- 
- # Dictionary which records equipped items
-    equipped_items = {
-    "weapon_name": "0",
-    "weapon_power": 0,
-    "armour_name": "0",
-    "armour_power": 0,
-    "jewellery_name": "0",
-    "jewellery_power": 0
-    }
-
- # Dictionary which contains item prefixes and their associated dice modifiers
-    item_prefixes = {
-    "Cursed": -10,
-    "Unlucky": -5,
-    "Trusty": 1,
-    "Fortunate": 2,
-    "Lucky" : 3,
-    "Uncanny" : 4,
-    "Weighted": 5,
-    "Blessed": 10
-    }
-
- # Dictionary which contains material types and their associated dice modifiers
-    item_materials = {
-    "Stone": -10,
-    "Wooden": -5,
-    "Copper": 1,
-    "Bronze": 2,
-    "Iron" : 3,
-    "Steel" : 4,
-    "Obsidian": 5,
-    "Mythril": 10
-    }
-
- # Dictionary which contains weapon types and their associated dice modifiers
-    weapon_types = {
-    "Pebble": -10,
-    "Stick": -5,
-    "Sword": 1,
-    "Axe": 2,
-    "Mace" : 3,
-    "Longbow" : 4,
-    "Katana": 5,
-    "Staff": 10
-    }
-
- # Dictionary which contains armour types and their associated dice modifiers
-    armour_types = {
-    "Pants": -10,
-    "Shirt": -5,
-    "Garb": 1,
-    "Tunic": 2,
-    "Cuirass" : 3,
-    "Hauberk" : 4,
-    "Mail": 5,
-    "Plate": 10
-    }
-
- # Dictionary which contains jewellery types and their associated dice modifiers
-    jewellery_types = {
-    "Trinket": -10,
-    "Charm": -5,
-    "Bangle": 1,
-    "Bracelet": 2,
-    "Earring" : 3,
-    "Ring" : 4,
-    "Amulet": 5,
-    "Crown": 10
-    }
-
- # Dictionary which contains item suffixes and their associated dice modifiers
-    item_suffixes = {
-    "Sloth": -10,
-    "Lemming": -5,
-    "Mouse": 1,
-    "Rabbit": 2,
-    "Dog" : 3,
-    "Cat" : 4,
-    "Parrot": 5,
-    "Dragon": 10
-    }
-
-    # Prints a welcome message
-    print(end='\n')
-    print("Dieablo", VERSION, ":", TAGLINE)
-    print("---------------------------------------------------")
-    print(end='\n')
-
     # Input prompt which commences and/or restarts the code
-    while input("Roll the dice? Press enter.") == "":
+    while input("Challenge a monster? (y/n)") == "y":
 
-        # Item rolling
-        # Prefix generation
-        # --------------------------------------------------
-        # Picks a random key from the item_prefixes dictionary
-        def pick_random_key_from_item_prefixes(d: item_prefixes):
-            keys = list(d.keys())
-            random_key_from_item_prefixes = random.choice(keys)
-            return random_key_from_item_prefixes
+        # The below relates to the generation of a monster (for now, a dragon)
+        # Pulls a random dragon age from DRAGON_AGE
+        random_dragon_age = random.choice(DRAGON_AGE)
+        # Pulls a random dragon prefix from DRAGON_PREFIXES
+        random_dragon_prefix = random.choice(DRAGON_PREFIXES)
+        # Calculates the the level of the monster
+        monster_level = random.randint(80, 110)
+        # Randomly rolls a dragon name, formatted as an f-string
+        dragon_name = (f'{random_dragon_age} {random_dragon_prefix} Dragon')
 
-        # Picks a random item from the item_prefixes dictionary based on the generated key
-        def pick_random_item_from_item_prefixes(d: item_prefixes):
-            random_key_from_item_prefixes = pick_random_key_from_item_prefixes(d)
-            random_item_from_item_prefixes = random_key_from_item_prefixes, d[random_key_from_item_prefixes]
-            return random_item_from_item_prefixes
+        # The below relates to the generation of treasure (an item and gold)
+        # Pulls a random prefix from PREFIXES
+        random_prefix = random.choice(SWORD_PREFIXES_1H)
+        # Pulls a random one-handed sword name from SWORD_NAMES_1H
+        random_sword_1h = random.choice(SWORD_NAMES_1H)
+        # Pulls a random suffix from SUFFIXES
+        random_suffix = random.choice(SWORD_SUFFIXES_1H)
+        # Generates an item level)
+        item_level = random.randint(80, 110)
+        # Generates an attack speed
+        attack_speed = round(random.uniform (1.50, 1.99), 2)
+        # Generates a minumum value for a damage range
+        minimum_damage = random.randint(150, 200)
+        # Generates a maximum value for a damage range
+        maximum_damage = random.randint(250, 300)
+        # Calculates the damage per second of a weapon (average damage/attack speed)
+        raw_dps = ((minimum_damage+maximum_damage)/2)/attack_speed
+        # Calculates DPS adjusted by a percentage informed by item_level
+        total_dps = round(((raw_dps/100)*item_level),2)
+        # Randomly rolls an item name, formatted as an f-string
+        item_name = (f'{random_prefix} {random_sword_1h} of the {random_suffix}')
+        # Calculates a random amount of gold dropped by the enemy, scaled by monster_level
+        gold_dropped = (random.randint(50, 500)*item_level)
 
-        # Defines the random item from item_prefixes as a variable, then splits the tuple into name and number
-        random_item_from_item_prefixes = pick_random_item_from_item_prefixes(item_prefixes)
-        name_from_item_prefixes =  random_item_from_item_prefixes[0]
-        number_from_item_prefixes = random_item_from_item_prefixes[1]
+        # Prints the name and level of the monster in the console
+        print(end='\n')
+        print("You have defeated the Level", monster_level, dragon_name)
+        print(end='\n')
 
-        # Suffix generation
-        # --------------------------------------------------
-        # Picks a random key from the item_suffixes dictionary
-        def pick_random_key_from_item_suffixes(d: item_suffixes):
-            keys = list(d.keys())
-            random_key_from_item_suffixes = random.choice(keys)
-            return random_key_from_item_suffixes
+        # Prints the generated weapon in the console
+        print("Congratulations! You receive:")
+        print(end='\n')
+        print(item_name)
+        print("Item level:", item_level)
+        print("Damage:", minimum_damage, "-", maximum_damage)
+        print("Attack speed:", attack_speed)
+        print("DPS:", total_dps)
+        print(end='\n')
 
-        # Picks a random item from the item_suffixes dictionary based on the generated key
-        def pick_random_item_from_item_suffixes(d: item_suffixes):
-            random_key_from_item_suffixes = pick_random_key_from_item_suffixes(d)
-            random_item_from_item_suffixes = random_key_from_item_suffixes, d[random_key_from_item_suffixes]
-            return random_item_from_item_suffixes
+        # Prints a rating for the weapon based on DPS value
+        if total_dps <= 100:
+            print("F tier: Weapons this terrible really have no use.")
+        if 100 <= total_dps <= 110:
+            print("D tier: This weapon is not very good...")
+        if 110 <= total_dps <= 130:
+            print("C tier: A fairly average weapon.")
+        if 130 <= total_dps <= 140:
+            print("B tier: Quite a strong, reliable weapon.")
+        if 140 <= total_dps <= 150:
+            print("A tier: Exceptional quality and craftmanship.")
+        if 150 <= total_dps <= 156:
+            print("S tier: Wow! An incredible weapon, and a rare find.")
+        if total_dps >= 160:
+            print("S+ tier: Legendary weapon! It doesn't get much better than this.")
 
-        # Defines the random item from item_suffixes as a variable, then splits the tuple into name and number
-        random_item_from_item_suffixes = pick_random_item_from_item_suffixes(item_suffixes)
-        name_from_item_suffixes =  random_item_from_item_suffixes[0]
-        number_from_item_suffixes = random_item_from_item_suffixes[1]
-
-        # Materials generation
-        # --------------------------------------------------
-        # Picks a random key from the item_materials dictionary
-        def pick_random_key_from_item_materials(d: item_materials):
-           keys = list(d.keys())
-           random_key_from_item_materials = random.choice(keys)
-           return random_key_from_item_materials
-
-        # Picks a random item from the item_materials dictionary based on the generated key
-        def pick_random_item_from_item_materials(d: item_materials):
-           random_key_from_item_materials = pick_random_key_from_item_materials(d)
-           random_item_from_item_materials = random_key_from_item_materials, d[random_key_from_item_materials]
-           return random_item_from_item_materials
-
-        # Defines the random item from item_materials as a variable, then splits the tuple into name and number
-        random_item_from_item_materials = pick_random_item_from_item_materials(item_materials)
-        name_from_item_materials = random_item_from_item_materials[0]
-        number_from_item_materials = random_item_from_item_materials[1]
-
-        # Weapon type generation
-        # --------------------------------------------------
-        # Picks a random key from the weapon_types dictionary
-        def pick_random_key_from_weapon_types(d: weapon_types):
-           keys = list(d.keys())
-           random_key_from_weapon_types = random.choice(keys)
-           return random_key_from_weapon_types
-
-        # Picks a random item from the weapon_types dictionary based on the generated key
-        def pick_random_item_from_weapon_types(d: weapon_types):
-           random_key_from_weapon_types = pick_random_key_from_weapon_types(d)
-           random_item_from_weapon_types = random_key_from_weapon_types, d[random_key_from_weapon_types]
-           return random_item_from_weapon_types
-
-        # Defines the random item from weapon_types as a variable, then splits the tuple into name and number
-        random_item_from_weapon_types = pick_random_item_from_weapon_types(weapon_types)
-        name_from_weapon_types = random_item_from_weapon_types[0]
-        number_from_weapon_types = random_item_from_weapon_types[1]
-
-        # Weapon type generation
-        # --------------------------------------------------
-        # Picks a random key from the weapon_types dictionary
-        def pick_random_key_from_weapon_types(d: weapon_types):
-           keys = list(d.keys())
-           random_key_from_weapon_types = random.choice(keys)
-           return random_key_from_weapon_types
-
-        # Picks a random item from the weapon_types dictionary based on the generated key
-        def pick_random_item_from_weapon_types(d: weapon_types):
-           random_key_from_weapon_types = pick_random_key_from_weapon_types(d)
-           random_item_from_weapon_types = random_key_from_weapon_types, d[random_key_from_weapon_types]
-           return random_item_from_weapon_types
-
-        # Defines the random item from weapon_types as a variable, then splits the tuple into name and number
-        random_item_from_weapon_types = pick_random_item_from_weapon_types(weapon_types)
-        name_from_weapon_types = random_item_from_weapon_types[0]
-        number_from_weapon_types = random_item_from_weapon_types[1]
-
-        # Armour type generation
-        # --------------------------------------------------
-        # Picks a random key from the weapon_types dictionary
-        def pick_random_key_from_armour_types(d: armour_types):
-           keys = list(d.keys())
-           random_key_from_armour_types = random.choice(keys)
-           return random_key_from_armour_types
-
-        # Picks a random item from the armour_types dictionary based on the generated key
-        def pick_random_item_from_armour_types(d: armour_types):
-           random_key_from_armour_types = pick_random_key_from_armour_types(d)
-           random_item_from_armour_types = random_key_from_armour_types, d[random_key_from_armour_types]
-           return random_item_from_armour_types
-
-        # Defines the random item from armour_types as a variable, then splits the tuple into name and number
-        random_item_from_armour_types = pick_random_item_from_armour_types(armour_types)
-        name_from_armour_types = random_item_from_armour_types[0]
-        number_from_armour_types = random_item_from_armour_types[1]
-
-        # Jewellery type generation
-        # --------------------------------------------------
-        # Picks a random key from the weapon_types dictionary
-        def pick_random_key_from_jewellery_types(d: jewellery_types):
-            keys = list(d.keys())
-            random_key_from_jewellery_types = random.choice(keys)
-            return random_key_from_jewellery_types
-
-        # Picks a random item from the jewellery_types dictionary based on the generated key
-        def pick_random_item_from_jewellery_types(d: jewellery_types):
-            random_key_from_jewellery_types = pick_random_key_from_jewellery_types(d)
-            random_item_from_jewellery_types = random_key_from_jewellery_types, d[random_key_from_jewellery_types]
-            return random_item_from_jewellery_types
-
-        # Defines the random item from jewellery_types as a variable, then splits the tuple into name and number
-        random_item_from_jewellery_types = pick_random_item_from_jewellery_types(jewellery_types)
-        name_from_jewellery_types = str(random_item_from_jewellery_types[0])
-        number_from_jewellery_types = random_item_from_jewellery_types[1]
-
-        # Item type generation
-        # --------------------------------------------------
-        # Picks a random key from the weapon_types dictionary
-        def pick_random_key_from_item_types(d: item_types):
-            keys = list(d.keys())
-            random_key_from_item_types = random.choice(keys)
-            return random_key_from_item_types
-
-        # Picks a random item from the item_types dictionary based on the generated key
-        def pick_random_item_from_item_types(d: item_types):
-            random_key_from_item_types = pick_random_key_from_item_types(d)
-            random_item_from_item_types = random_key_from_item_types, d[random_key_from_item_types]
-            return random_item_from_item_types
-
-        # Defines the random item from item_types as a variable, then splits the tuple into name and number
-        random_item_from_item_types = pick_random_item_from_item_types(item_types)
-        name_from_item_types = str(random_item_from_item_types[0])
-        number_from_item_types = str(random_item_from_item_types[1])
-
-        # Compiles and joins the rolled weapon name
-        unjoined_weapon_name = (name_from_item_prefixes, name_from_item_materials, name_from_weapon_types, "of the", name_from_item_suffixes)
-        weapon_name = ' '.join(unjoined_weapon_name)
-        # Compiles and joins the rolled armour name
-        unjoined_armour_name = (name_from_item_prefixes, name_from_item_materials, name_from_armour_types, "of the", name_from_item_suffixes)
-        armour_name = ' '.join(unjoined_armour_name)
-        # Compiles and joins the rolled jewellery name
-        unjoined_jewellery_name = (name_from_item_prefixes, name_from_item_materials, name_from_jewellery_types, "of the", name_from_item_suffixes)
-        jewellery_name = ' '.join(unjoined_jewellery_name)
-        # Random power value which is added to item power
-        random_power = random.randint(1,20)
-        # Compiles rolled weapon power
-        weapon_power = int(number_from_item_prefixes + number_from_item_materials + number_from_weapon_types + number_from_item_suffixes + random_power)
-        # Compiles rolled armour power
-        armour_power = int(number_from_item_prefixes + number_from_item_materials + number_from_armour_types + number_from_item_suffixes + random_power)
-        # Compiles rolled weapon power
-        jewellery_power = int(number_from_item_prefixes + number_from_item_materials + number_from_jewellery_types + number_from_item_suffixes + random_power)
-        # Stores whether the item is a weapon, armour or jewellery
-        rolled_item_type = name_from_item_types
-
-        # Defines the function which prints the resulting item
-        def print_final_item():
-            if rolled_item_type == "Weapon":
-                print(end='\n')
-                print(weapon_name)
-                print("Item type:", rolled_item_type)
-                print("Power level:", weapon_power)
-                print(end='\n')
-            elif rolled_item_type == "Armour":
-                print(end='\n')
-                print(armour_name)
-                print("Item type:", rolled_item_type)
-                print("Power level:", armour_power)
-                print(end='\n')
-            elif rolled_item_type == "Jewellery":
-                print(end='\n')
-                print(jewellery_name)
-                print("Item type:", rolled_item_type)
-                print("Power level:", jewellery_power)
-                print(end='\n')
-
-        # Calls the function which prints the resulting item
-        print_final_item()
+        # Prints a random amount of gold earned in the console
+        print(end='\n')
+        print("...you also receive", format(gold_dropped, ","), "gold pieces.")
+        print(end='\n')
 
 if __name__ == "__main__":
     main()
